@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Group Meeting March 16 2017: Lesley Chapman</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/solarized.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+		
+			<div class="slides">
+				<!-- Intro slide -->
+				<section>
+				<br>
+				
+					<h3>Identifying high confidence structural variants in the human genome with Machine Learning</h3>
+					<br>
+					<h5>Lesley Chapman</h5>
+					<p>
+						<small>Github <a href="https://github.com/lesleymaraina">lesleymaraina</a></small>
+					</p>
+				</section>
+				<!-- Overview slide -->
+				<section>
+					<h3>Overview</h3>
+					<ul>
+						<li class= "fragment">Background/Motivation</li>
+						<li class= "fragment">Data Analysis Pipeline</li>
+						<li class= "fragment">Results</li>
+						<li class= "fragment">Future Direction</li>
+				</section>
+
+							<!-- Background slide -->
+				<section>
+					<h3>Background</h3>
+	
+				</section>
+				
+
+				<!-- Structural Variant Definition slide -->
+
+				<section>
+					<h4>Structural Variants</h4>
+
+					<div id="left">
+					<br>
+					<ul>
+						<li style="font-size: 20px !important">Structural variants are defined as alterations of DNA segments</li>
+						<li style="font-size: 20px !important" class= "fragment">Structural variants are implicated in numerous diseases and make up the majority of varying nucleotides among human genomes</li>
+						<li style="font-size: 20px !important" class= "fragment">SVs are prone to arise in repetitive regions</li>
+						<li style="font-size: 20px !important" class= "fragment">Efforts to perform discovery, genotyping, and statistical haplotype-block integration of all major SV classes are lacking</li>
+						<li style="font-size: 20px !important" class= "fragment">1000 Genomes Project - Structural Variation Analysis Group defines SVs as DNA variants >= 50bp</li>
+					</ul>
+					<!-- <p style="font-size: 9px !important">Monya et al (2012) Nature Methods</p> -->
+					<p style="font-size: 9px !important">Feuk, L. et al (2006) Nature Reviews</p>
+					<p style="font-size: 9px !important">Sudmant, P. et al (2015) Nature</p>
+					</div>
+
+					<div id="right">
+					<img src='images/Slide1.png' style="height: 500px;" alt='SV'>
+
+					<p style="font-size: 9px !important">Baker, M. et al (2012) Nature Methods</p>
+
+					</div>
+
+				</section>
+
+				<!-- Structural Variant Definition slide -->
+				<section>
+					<h3>SV Discovery Overview</h3>
+				<iframe src="https://docs.google.com/presentation/d/1qMUgXWomtm6R2ip756SbGJwYfS0Mgc-KMObCC5pLQOY/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+				</section>
+
+				<!-- Background slide -->
+				<section>
+					<h3>Previous Studies</h3>
+					<ul>
+						<li style="font-size: 20px !important" class= "fragment">Studies have shown that there are thousands of differences between variant calls from different whole human genome sequencing methods and bioinformatics methods</li>
+						<li style="font-size: 20px !important" class= "fragment">High-confidence set of genome wide genotype calls can be used as a benchmark </li>
+						<li style="font-size: 20px !important" class= "fragment">Zook et al (2014) generated a high confidence benchmark set of small variants (SNPS and indels) for NA12878</li>
+				</section>
+				
+
+				<!-- Central Aim slide -->
+				<section>
+					<h3>Central Aim</h3>
+					<p>
+					The goal of this project is to analyze Next Generation Sequencing (NGS) data in order to generate a high confidence list of structural variants (SVs) within the human genome.
+					</p>
+				</section>
+
+				<!-- Central Aim slide -->
+				<section>
+					<h3>Data</h3>
+				<table class="reveal_table">
+					<tr>
+						<td style="font-size: 25px !important; font-weight:bold">Genome</td>
+      					<td style="font-size: 25px !important; font-weight:bold">PGP ID</td>
+      					<td style="font-size: 25px !important; font-weight:bold">Coriell ID</td>
+      					<td style="font-size: 25px !important; font-weight:bold">NIST ID</td>
+      					<td style="font-size: 25px !important; font-weight:bold">NIST RM #</td>
+    				</tr>
+    				<tr>
+						<td style="font-size: 25px !important">AJ Son</td>
+      					<td style="font-size: 25px !important">huAA53E0</td>
+      					<td style="font-size: 25px !important">GM24385</td>
+      					<td style="font-size: 25px !important">HG002</td>
+      					<td style="font-size: 25px !important">RM8391(son) | RM8392</td>
+    				</tr>
+    				<tr>
+						<td style="font-size: 25px !important">AJ Father</td>
+      					<td style="font-size: 25px !important">hu6E4515</td>
+      					<td style="font-size: 25px !important">GM24149</td>
+      					<td style="font-size: 25px !important">HG003</td>
+      					<td style="font-size: 25px !important">RM8392(trio)</td>
+    				</tr>
+    				<tr>
+						<td style="font-size: 25px !important">AJ Mother</td>
+      					<td style="font-size: 25px !important">hu8E87A9</td>
+      					<td style="font-size: 25px !important">GM24143</td>
+      					<td style="font-size: 25px !important">HG004</td>
+      					<td style="font-size: 25px !important">RM8392(trio)</td>
+    				</tr>
+
+  				</table>
+					<br>
+				<ul>
+						<li style="font-size: 20px !important" class= "fragment">SVs >= 20bp</li>
+						<li style="font-size: 20px !important" class= "fragment">300000+ candidate variants derived from 5 sequencing technologies</li>
+				</ul>
+				</section>
+
+				
+				<!-- Sequencing Platform slide -->
+				<section>
+				<p>Dataset Sources</p>
+				<br>
+				<table class="reveal_table">
+					<tr>
+						<td style="font-size: 20px !important; font-weight:bold">Technology</td>
+      					<td style="font-size: 20px !important; font-weight:bold">Read Length</td>
+      					<td style="font-size: 20px !important; font-weight:bold">Read Depth</td>
+    				</tr>
+    				<tr>
+						<td style="font-size: 15px !important">Illumina HiSeq 2500*</td>
+      					<td style="font-size: 15px !important">148bp</td>
+      					<td style="font-size: 15px !important">296.83x</td>
+    				</tr>
+    				<tr>
+						<td style="font-size: 15px !important">Illumina HiSeq 2500*</td>
+      					<td style="font-size: 15px !important">2x250bp</td>
+      					<td style="font-size: 15px !important">40-50x</td>
+    				</tr>
+    				<tr>
+						<td style="font-size: 15px !important">Illumina Mate Pair*</td>
+      					<td style="font-size: 15px !important">2x100bp(insert size:6000bp)</td>
+      					<td style="font-size: 15px !important">13-14x</td>
+    				</tr>
+    				<tr>
+						<td style="font-size: 15px !important">10X Genomics*</td>
+      					<td style="font-size: 15px !important">2X98bp</td>
+      					<td style="font-size: 15px !important">50x HG002 | 22x HG003 | 24x HG004</td>
+    				</tr>
+    				<tr>
+						<td style="font-size: 15px !important">PacBio*</td>
+      					<td style="font-size: 15px !important">10-11Kb</td>
+      					<td style="font-size: 15px !important">69x HG002 | 30-32x HG003/HG004</td>
+    				</tr>
+    				<tr>
+						<td style="font-size: 15px !important">BioNano Genomics</td>
+      					<td style="font-size: 15px !important">195Kb HG002 | 246Kb HG003 | 213Kb HG004</td>
+      					<td style="font-size: 15px !important">112x HG002 | 87x HG003 | 92x HG004</td>
+    				</tr>
+    				<tr>
+						<td style="font-size: 15px !important">Complete Genomics(CG)</td>
+      					<td style="font-size: 15px !important">26bp</td>
+      					<td style="font-size: 15px !important">100x </td>
+    				</tr>
+  				</table>
+  				<p style="font-size: 10px !important"> * Datasets optimized for SVVIZ</p>
+  				</section>
+
+				<!-- Variant Callers slide -->
+				<section>
+					<p style="font-size: 35px !important">Variant Callers</p>
+					<br>
+					<div id="left">
+					<p style="font-size: 25px !important">Illumina</p>
+					<ul>
+						<li style="font-size: 20px !important">Spiral (now only small have sequence)</li>
+						<li style="font-size: 20px !important">Fermikit (now only small have sequence)</li>
+						<li style="font-size: 20px !important">Cortex</li>
+						<li style="font-size: 20px !important">GATK (small)</li>
+						<li style="font-size: 20px !important">Freebayes (small)</li>
+						<li style="font-size: 20px !important">Pindel</li>
+						<li style="font-size: 20px !important">manta</li>
+						<li style="font-size: 20px !important">MetaSV (when possible)</li>
+					</ul>
+					</div>
+
+					<p style="font-size: 18px !important">PacBio</p>
+					<!-- <div id="right"> -->
+					<ul>
+						<li style="font-size: 20px !important">MSPacMon</li>
+						<li style="font-size: 20px !important">Assemblytics (2)</li>
+					</ul>
+					<!-- </div> -->
+
+					<p style="font-size: 18px !important">CG (small) </p>
+					<!-- <div id="right"> -->
+				
+<!-- 						<li style="font-size: 20px !important">MSPacMon</li>
+						<li style="font-size: 20px !important">Assemblytics (2)</li> -->
+			
+					<!-- </div> -->
+					<p style="font-size: 18px !important">10x(2)</p>
+					<!-- <div id="right"> -->
+			
+
+				</section>
+				<!-- Central Aim slide -->
+				<section>
+					<h3>Analysis Overview</h3>
+					<ul>
+						<li style="font-size: 20px !important" class= "fragment">Assign labels (Genotype[+/+, +/-, -/-] or unknown) to 300000 candidate variants </li>
+						<li style="font-size: 20px !important" class= "fragment">Generate labels for breakpoint and SV sequence accuracy</li>
+					</ul>
+					<p></p>
+					<h5 class= "fragment">Strategy</h3>
+					<ul>
+						<li style="font-size: 20px !important" class= "fragment">Sample dataset (5K INS and 5K Del)</li>
+						<li style="font-size: 15px !important" class= "fragment">Goal 1: Generate labeled data</li>
+						<li style="font-size: 15px !important" class= "fragment">Goal 2: Establish an analysis pipeline </li>
+						<p></p>
+						<li style="font-size: 20px !important" class= "fragment">Assign labels to the remaining datapoints</li>
+					</ul>
+				</section>
+
+				<!-- Central Aim slide -->
+				<section>
+					<h3>Analysis Approach</h3>
+					<iframe src="https://docs.google.com/presentation/d/1Hw9juEoIKnqCffX4Sxz1sQ7lNtqqmFBSsG8FAp035-Y/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+					<!-- <p>
+						<small><a href="https://docs.google.com/presentation/d/1Hw9juEoIKnqCffX4Sxz1sQ7lNtqqmFBSsG8FAp035-Y/pub?start=false&loop=false&delayms=60000">Overview</a></small>
+					</p> -->
+<!-- 					<ul>
+						<li style="font-size: 20px !important" class= "fragment">Generate a list of labeled data</li>
+						<li style="font-size: 20px !important" class= "fragment">Semi-supervised machine learning to assign labels to remaining data</li>
+					</ul> -->
+				</section>
+
+
+<!-- Central Aim slide -->
+				<section>
+					<h3>Preliminary Results</h3>
+				</section>
+
+				<section>
+					<h3>Data Preprocessing</h3>
+					<iframe src="https://docs.google.com/presentation/d/154ZtEUaIzKFJBTPzBBm56GqLVz4vS0rUa4Opc2bEYrk/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+				</section>
+
+				<section>
+					<h3>kNN and Missing Values</h3>
+					<iframe src="https://docs.google.com/presentation/d/1OQcuO1OkQZW82nH-TKNs9Wz2BIBPWtvvITH5xxgVtfA/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+				</section>
+				<section>
+					<h3>kNN Distributions</h3>
+					<div id="left">
+					<p>Deletions</p>
+					<img src='images/Ill300x.alt_count_KStest_variance.png' style="height: 400px;" alt='DEL TSNE'>
+					<p style="font-size: 15px !important">Distribution comparison for Ill300x.alt_alnScore_std: Ks_2sampResult(pvalue=1.0000000000000002)</p>
+					</div>
+					<div id="left">
+					<p>Insertions</p>
+					<img src='images/Ill300x_KS_INS.png' style="height: 400px;" alt='DEL TSNE'>
+					<p style="font-size: 15px !important">Distribution comparison for Ill300x.alt_alnScore_std: Ks_2sampResult(pvalue=0.99999999999999989)</p>
+					</div>
+				</section>
+
+				<section>
+					<h3>EDA</h3>
+					<div>
+    <a href="https://plot.ly/~lesley.maraina/19/?share_key=Ey2X8xroUqIUmIeCZLY2Lf" target="_blank" title="hist-plot4" style="display: block; text-align: center;"><img src="https://plot.ly/~lesley.maraina/19.png?share_key=Ey2X8xroUqIUmIeCZLY2Lf" alt="hist-plot4" style="max-width: 100%;width: 600px;"  width="600" onerror="this.onerror=null;this.src='https://plot.ly/404.png';" /></a>
+    <script data-plotly="lesley.maraina:19" sharekey-plotly="Ey2X8xroUqIUmIeCZLY2Lf" src="https://plot.ly/embed.js" async></script>
+</div>
+
+
+				</section>
+
+				<section>
+					<h3>t-Distributed Stochastic Neighbor Embedding(tSNE)</h3>
+				</section>
+
+				
+				<!-- Dimensionality Reduction Definition slide -->
+				<section>
+					<h3>Dimensionality Reduction Overview</h3>
+					<ul>
+						<li style="font-size: 20px !important" class= "fragment">Data visualization techniques used to display the structure of the data</li>
+						<li style="font-size: 20px !important" class= "fragment">methods that preserve a significant structure of a high-dimensional dataset in a low-dimensional space</li>
+						<li style="font-size: 20px !important" class= "fragment">Linear and Non-linear dimensionality reduction techniques</li>
+						<li style="font-size: 20px !important" class= "fragment">Linear: maintain large pairwise distances in a low dimensional space [i.e.: Principal Components Analysis (PCA) and Multidimensional Scaling(MDS)]</li>
+						<li style="font-size: 20px !important" class= "fragment">Non-linear: preserves small pairwise distances - points and their nearest neighbors in a low dimensional space [i.e.: stochastic neighbor embedding(SNE) and t-Distributed SNE]</li>
+						<li style="font-size: 20px !important" class= "fragment">PCA/MDS > Isomap > SNE > tSNE</li>
+					</ul>
+					<!-- <p>
+						<small><a href="https://docs.google.com/presentation/d/1Hw9juEoIKnqCffX4Sxz1sQ7lNtqqmFBSsG8FAp035-Y/pub?start=false&loop=false&delayms=60000">Overview</a></small>
+					</p> -->
+<!-- 					<ul>
+						<li style="font-size: 20px !important" class= "fragment">Generate a list of labeled data</li>
+						<li style="font-size: 20px !important" class= "fragment">Semi-supervised machine learning to assign labels to remaining data</li>
+					</ul> -->
+				</section>
+				<!-- Dimensionality Reduction Example slide -->
+				<section>
+				<h3>Linear vs. Non-Linear Reduction</h3>
+					<iframe src="https://docs.google.com/presentation/d/10XMUiEM1aLC6UJ0dCHDsJ77O_HH9J2jNB5PabP06TbI/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+				</section>
+				<section>
+				<h3>tSNE Overview</h3>
+					<iframe src="https://docs.google.com/presentation/d/1TME_NxFu73rNsrf4zM-JX3f3n7V1L7aGoygYJ12fZkc/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+				</section>
+
+				<!-- Dimensionality Reduction Example slide -->
+				<section>
+				<h3>tSNE: Approach</h3>
+					<ul>
+						<li style="font-size: 20px !important" class= "fragment">Truncated Singular Value Decomposition(SVD)</li>
+						<li style="font-size: 20px !important" class= "fragment">tSNE</li>
+						<img class= "fragment" src='images/SVD.tsne.Scikit.png' style="height: 500px;" alt='DEL TSNE'></img>
+				<!-- 		<li style="font-size: 20px !important" class= "fragment">Non-linear: maintain large pairwise distances in a low dimensional space [i.e.: Principal Components Analysis (PCA) and Multidimensional Scaling(MDS)]</li>
+						<li style="font-size: 20px !important" class= "fragment">Linear: preserves small pairwise distances - points and their nearest neighbors in a low dimensional space [i.e.: stochastic neighbor embedding(SNE) and t-Distributed SNE]</li>
+						<li style="font-size: 20px !important" class= "fragment">PCA/MDS > Isomap > SNE > tSNE</li> -->
+					</ul>
+				</section>
+
+				<!-- Image slide -->
+				<section>
+					<h3>SVD Explained Variance</h3>
+					
+					<p>Deletions</p>
+					<img src='images/SVD_explained_Variance_del.png' style="height: 500px;" alt='DEL TSNE'>
+	
+				</section>
+				<!-- Image slide -->
+				<section>
+					<h3>SVD Explained Variance</h3>
+					<p>Insertions</p>
+					<img src='images/ExplainedVariance_INS.png' style="height: 500px;" alt='DEL TSNE'>
+				</section>
+
+				<!-- Image slide -->
+				<section>
+					<h3>Pair Plot</h3>
+					<div id="left">
+					<p>Deletions</p>
+					<img src='images/pairplot_DEL.png' style="height: 500px;" alt='DEL TSNE'>
+					</div>
+					<div id="left">
+					<p>Insertions</p>
+					<img src='images/pairplot_INS.png' style="height: 500px;" alt='DEL TSNE'>
+					</div>
+				</section>
+
+
+				<!-- Image slide -->
+				<section>
+					<h3>TSNE: Deletions</h3>
+					<div id="left">
+					<p>GTCons</p>
+					<img src='images/TSNE_GTcons_DEL_SVD.png' style="height: 500px;" alt='DEL TSNE'>
+					</div>
+					<div id="right">
+					<p>Sample</p>
+					<img src='images/TSNE_sample_DEL_SVD.png' style="height: 500px;" alt='INS TSNE'>
+					</div>
+
+				</section>
+
+				<section>
+					<h3>TSNE: Deletions</h3>
+					<div id="left">
+					<p>GTCons</p>
+					<img src='images/TSNE_GTcons_DEL_SVD.png' style="height: 500px;" alt='DEL TSNE'>
+					</div>
+					<div id="right">
+					<p>Size Range</p>
+					<img src='images/TSNE_Size_DEL_SVD.png' style="height: 500px;" alt='INS TSNE'>
+					</div>
+
+				</section>
+
+				<section>
+					<h3>TSNE: Insertions</h3>
+					<div id="left">
+					<p>GTCons</p>
+					<img src='images/TSNE_GTcons_INS_SVD.png' style="height: 500px;" alt='DEL TSNE'>
+					</div>
+					<div id="right">
+					<p>Sample</p>
+					<img src='images/TSNE_sample_INS_SVD.png' style="height: 500px;" alt='INS TSNE'>
+					</div>
+				</section>
+
+
+				<section>
+					<h3>TSNE: Insertions</h3>
+					<div id="left">
+					<p>GTCons</p>
+					<img src='images/TSNE_GTcons_INS_SVD.png' style="height: 500px;" alt='DEL TSNE'>
+					</div>
+					<div id="right">
+					<p>Size Range</p>
+					<img src='images/TSNE_Size_INS_SVD.png' style="height: 500px;" alt='INS TSNE'>
+					</div>
+				</section>
+
+								<!-- Image slide -->
+				<section>
+					<h3>Next Steps</h3>
+	<iframe src="https://docs.google.com/presentation/d/1d24MdNItRJizepd89S-aI_USkmLTUNPiZKCljys2iyw/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+
+				</section>
+
+				<section>
+					<h3>Future Directions</h3>
+						<ul>
+						<li style="font-size: 20px !important" class= "fragment">Process additional datapoints (5000 total)</li>
+						<li style="font-size: 20px !important" class= "fragment">Trial manual curation: develop best practices for analyzing images</li>
+						<li style="font-size: 20px !important" class= "fragment">Manual Curation: Develop an efficient way to display and distribute genomic images for analysis</li>
+						<li style="font-size: 15px !important" class= "fragment">Javascript Based App: summer student</li>
+						<p></p>
+						<li style="font-size: 20px !important" class= "fragment">Collect labeled datapoints</li>
+						<li style="font-size: 20px !important" class= "fragment">Semi-supervised machine learning: use labeled datapoints to train semi-supervised model and assign labels to remaining datapoints</li>
+						<li style="font-size: 20px !important" class= "fragment">Semi-supervised machine learning strategy: stratify based on technology?</li>
+						<li style="font-size: 20px !important" class= "fragment">Include additional features: CNVthresher, Parliament, Mendelian</li>
+						</ul>
+				</section>
+				<!-- Image slide -->
+				<section>
+					<p>End</p>
+				</section>
+				<!-- Image slide -->
+				<section>
+					<p></p>
+				</section><!-- Image slide -->
+				<section>
+					<p style="height: 500px;" class="test"></p>
+				</section>
+
+				<section><!-------------------------- slide ------------------------>
+					<h1>Sample Presentation</h1>
+					<h3>HTML Presentations Made Eas y</h3>
+					<p>
+						<small>Created by <a href="https://docs.google.com/presentation/d/1oEba1zzMyjJiA_3colopTNBDHF7VvBYoNoe94DYelgs/pub?start=false&loop=false&delayms=15000">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
+					</p>
+				</section>
+
+
+				<!-- Code slide -->
+				<!--Encode HTML: https://www.web2generators.com/html-based-tools/online-html-entities-encoder-and-decoder-->
+				<section>
+					<pre><code data-trim>
+&lt;section&gt; 
+&lt;h3&gt;Overview&lt;/h3&gt;
+&lt;ul&gt; &lt;li&gt;Background/Motivation&lt;/li&gt; 
+&lt;li&gt;Data Analysis Pipeline&lt;/li&gt; 
+&lt;li&gt;Results&lt;/li&gt; 
+&lt;li&gt;Future Direction&lt;/li&gt; 
+&lt;/section&gt;
+					</code></pre>
+				</section>
+
+
+				<!-- Code slide -->
+				<!--Encode HTML: https://www.web2generators.com/html-based-tools/online-html-entities-encoder-and-decoder-->
+				<section data-markdown>
+					<script type="text/template">
+						## Markdown support
+
+						Write content using inline or external Markdown.
+						Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+
+						```
+						<section data-markdown>
+						  ## Markdown support
+
+						  Write content using inline or external Markdown.
+						  Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+						</section>
+						```
+					</script>
+				</section>
+
+
+
+
+
+			</div>
+
+			
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: '/Users/lmc2/Desktop/reveal/Test_edgePreload.js', async: true},
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+
+
+			
+
+		</script>
+
+		<section id="edgeanimation">
+					<p class="clientserver"></p>
+					<ul>
+						<li class="fragment">Client</li>
+						<li class="fragment" id="server">Server</li>
+					</ul>
+				</section>
+
+		<section id="edgeanimation">
+					<p style="height: 500px;" class="test"></p>
+					<ul>
+						<li class="fragment">Start</li>
+						<li class="fragment" id="server">Stop</li>
+					</ul>
+				</section>
+
+
+		<script>
+
+
+			Reveal.addEventListener('fragmentshown', function(event) {
+				if (event.fragment.id==='populate') {
+					document.querySelector("#myField").value="Don't forget"
+				}
+
+				if (event.fragment.id==='server') {
+					AdobeEdge.getComposition("clientserver").getStage().play("Start");
+				}
+
+			});
+
+			Reveal.addEventListener('slidechanged', function() {
+				if (event.currentSlide.id==='edgeanimation'){
+					AdobeEdge.getComposition("clientserver").getStage().play("End");
+				}
+			});
+		</script>
+
+	</body>
+</html>
